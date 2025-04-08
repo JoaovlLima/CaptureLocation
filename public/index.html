@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Envio de Localização</title>
+</head>
+<body>
+  <h2>Formulário de Envio de Localização</h2>
+  <form id="locationForm">
+    <label for="email">Seu e-mail:</label><br>
+    <input type="email" name="email" id="email" required /><br><br>
+
+    <input type="hidden" name="lat" id="lat" />
+    <input type="hidden" name="lng" id="lng" />
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById("locationForm");
+    const statusText = document.getElementById("status");
+
+    // Capturar localização
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        document.getElementById("lat").value = position.coords.latitude;
+        document.getElementById("lng").value = position.coords.longitude;
+      },
+      (error) => {
+        statusText.textContent = "Erro ao obter localização: " + error.message;
+      }
+    );
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+      const data = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch("http://localhost:3000/send", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: data.toString(),
+        });
+
+        const result = await response.text();
+        statusText.textContent = result;
+      } catch (err) {
+        statusText.textContent = "Erro ao enviar dados: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
