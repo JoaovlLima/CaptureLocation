@@ -41,7 +41,7 @@
       const data = new URLSearchParams(formData);
 
       try {
-        const response = await fetch("send", {
+        const response = await fetch("/send", {
           method: "POST",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
