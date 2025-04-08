@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Servindo arquivos estáticos (HTML, CSS, JS) da pasta "public"
-app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Rota que recebe o POST com email, lat, lng
 app.post('/send', async (req, res) => {
