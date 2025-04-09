@@ -4,13 +4,15 @@ import fetch from 'node-fetch';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
 
+dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Configurações do Telegram
-const TELEGRAM_TOKEN = '7359276298:AAFKWa0pEZU9WY0FwnkC-drQDNVQxQZXtLc';
-const CHAT_ID = '5379369411';
+const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
 
 // Correção para usar __dirname com ESModules
 const __filename = fileURLToPath(import.meta.url);
