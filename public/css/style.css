@@ -1,0 +1,89 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Corpo com fundo centralizado */
+  body {
+    height: 100vh;
+    background: linear-gradient(135deg, #1f4037, #99f2c8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  /* Formulário moderno */
+  form {
+    background-color: #ffffffdd;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  /* Título */
+  form h2 {
+    margin-bottom: 20px;
+    color: #1f4037;
+  }
+  
+  /* Label e input */
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    text-align: left;
+  }
+  
+  input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    transition: 0.3s;
+  }
+  
+  input[type="email"]:focus {
+    border-color: #1f4037;
+    outline: none;
+  }
+  
+  /* Botão */
+  button {
+    padding: 12px 25px;
+    background: #1f4037;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  button:hover {
+    background: #16332b;
+  }
+  
+  /* Mensagem de status */
+  #status {
+    margin-top: 20px;
+    font-size: 15px;
+    color: #1f4037;
+    background-color: #e6fff2;
+    padding: 12px 18px;
+    border-radius: 10px;
+    border: 1px solid #1f4037;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  

