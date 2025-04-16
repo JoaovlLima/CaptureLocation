@@ -1,7 +1,6 @@
 # CaptureLocation
 https://capturelocation.onrender.com/
 
-# Meu Portfólio
 
 Comentários recebidos:
 
